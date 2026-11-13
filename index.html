@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Benjamin Sung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Futura is used where installed (macOS, iOS). Jost, a Futura-style Google font, covers everything else. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;800&display=swap" />
+</head>
+<body>
+  <!-- ink bleed filter used by .ink -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="ink" x="-2%" y="-2%" width="104%" height="104%">
+      <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="3" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" />
+    </filter>
+  </svg>
+
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <!-- Always-visible nav. data-t must match a section id below (or "top"). -->
+  <nav class="nav" aria-label="Sections">
+    <a href="#top" data-t="top" class="on">Home</a>
+    <a href="#work" data-t="work">Work</a>
+    <a href="#about" data-t="about">About</a>
+  </nav>
+
+  <main>
+    <header class="hero wrap" id="top">
+      <!-- MASTHEAD: change "yourname" to your name (lowercase looks best). It resizes to fit the page. -->
+      <div class="masthead-row">
+        <h1 class="masthead ink"><span>benjamin sung</span></h1>
+        <div class="issue ink"><span class="num"></span><span class="year">2026</span></div>
+      </div>
+
+      <div class="sub">
+        <p>Aspiring Graphics Programmer. </p>
+        <p>address: chicago, IL · ybsxmonds@gmail.com</p>
+        <p>currently studying computer science at University of Illinois urbana-champaign</p>
+      </div>
+
+      <div class="front">
+        <div class="stage">
+          <div class="hint" id="hint"><i></i>drag the shapes</div>
+        </div>
+        <aside class="lead">
+          <p class="k">technical skills:</p>
+          <ul class="skills">
+            <li>C++</li>
+            <li>C#</li>
+            <li>GLSL</li>
+            <li>Vulkan</li>
+            <li>OpenGL</li>
+          </ul>
+        </aside>
+      </div>
+    </header>
+
+    <section class="section wrap" id="work">
+      <div class="flag">
+        <h2 class="ink">work</h2>
+        <div class="meta">selected projects<br />pages 2 – 4</div>
+      </div>
+
+      <!-- To add a story: copy one <a class="story"> block, create project-N.html,
+           and add the new page to build.rollupOptions.input in vite.config.ts. -->
+      <div class="stories">
+        <a class="story" href="project-1.html">
+          <div class="pv pv-a"></div>
+          <p class="kicker">no. 1 · OpenGL · C++</p>
+          <h3 class="ink">SIGGraph Volumetric Renderer</h3>
+          <p class="deck">A group project on rendering high fidelity volumetric clouds. Studied and worked on Volumetric Rendering, the OpenGL rendering pipeline, and the matrices that make up the transformations from local space to the camera view.</p>
+          <div class="by"><span>design + code</span><span>read on page 2 →</span></div>
+        </a>
+        <a class="story" href="project-2.html">
+          <div class="pv pv-b"></div>
+          <p class="kicker">no. 2 · Vulkan · C++</p>
+          <h3 class="ink">Vulkan Renderer</h3>
+          <p class="deck">A barebones implementation to get a window up and running in Vulkan. A work in progress.</p>
+          <div class="by"><span>solo</span><span>page 3 →</span></div>
+        </a>
+        <a class="story" href="project-3.html">
+          <div class="pv pv-c"></div>
+          <p class="kicker">no. 3 · glsl</p>
+          <h3 class="ink">miscellaneous shader and graphics projects</h3>
+          <p class="deck">A collection of tinier studies on rendering techniques and optimizations.</p>
+          <div class="by"><span>art + code</span><span>page 4 →</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section wrap" id="about">
+      <div class="flag">
+        <h2 class="ink">about</h2>
+        <div class="meta">the editor<br />page 5</div>
+      </div>
+
+      <p class="pull ink">CS Major @ UIUC</p>
+
+      <div class="about">
+        <div class="cols">
+          <p>I have a passion for the intersection of tech and art. I am a work in progress in both departments but I'm eager to learn the best techniques and necessary fundamentals to excel in both parts. I want to experiment more with compute shaders in the future and create cool and visually appealing gameplay systems that look and feel good.</p>
+          <figure class="photo color">
+            <div class="frame">
+              <img src="/images/me_in_tetons.jpg" alt="Hiking on the Isle of Skye" />
+            </div>
+            <figcaption>me in the tetons</figcaption>
+          </figure>
+          <p>Outside of school, I love to go backpacking. I recently throughhiked the Isle of Skye with friends as well as the Grand Teton Mountains. I don't recommend overpacking like I did with that trip work a 55L pack and at least 40lb of gear to trek up. Otherwise, I have a fondness for the West Coast of the US, specifically the Pacific Northwest. Another one of my favorite trips was car camping in Vancouver Island. The gloomy weather is my ideal environment.</p>
+          <figure class="photo color">
+            <div class="frame">
+              <img src="/images/isle_of_skye.jpg" alt="Hiking on the Isle of Skye" />
+            </div>
+            <figcaption>isle of skye</figcaption>
+          </figure>
+          <figure class="photo color">
+            <div class="frame">
+              <img src="/images/banff.jpg" alt="Hiking on the Isle of Skye" />
+            </div>
+            <figcaption>banff, canada</figcaption>
+          </figure>
+          <p>Otherwise, I tend to draw to practice art fundamentals and play guitar and create little tunes for fun. Lots of gestures and construction has honestly helped me a lot in demystifying the graphics pipeline, specifically why and how we use techniques like AO and the layered workflow for shaders like in Substance Designer. I love going to live music shows too. My favorite so far has been Bonnaroo 2024, otherwise my favorite concert was going to Duster.</p>
+        </div>
+        <div class="colophon">
+          <h4>colophon</h4>
+          <dl class="facts">
+            <div><dt>based in</dt><dd>Chicago, IL</dd></div>
+            <div><dt>focus</dt><dd>Graphics, Programming</dd></div>
+            <div><dt>tools</dt><dd>C++, GLSL, Vulkan, OpenGL</dd></div>
+            <div><dt>status</dt><dd>Open to freelance work</dd></div>
+            <div><dt>email</dt><dd>ybsxmonds@gmail.com</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot wrap"><span>© 2026 your name</span><span>set in futura · printed in the browser</span></footer>
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

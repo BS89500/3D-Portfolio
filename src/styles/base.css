@@ -1,0 +1,107 @@
+/* Single look, deliberately: ink on newsprint. Colour tokens below. */
+:root {
+  --paper: #e9e0ca;
+  --paper-lt: #f2ebda;
+  --paper-dk: #cfc3a6;
+  --ink: #171512;
+  --muted: #4b453a;
+  --red: #d8341f;
+  --blue: #1d4f9a;
+  --yellow: #f0b323;
+  /* read by the WebGL scene: keep --bg a 6-digit hex */
+  --bg: #e9e0ca;
+  --futura: "Futura", "Futura PT", "Futura Std", "Jost", "Century Gothic", "Avenir Next", sans-serif;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 16.5px/1.55 var(--futura);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+::selection { background: var(--ink); color: var(--paper); }
+
+.wrap { max-width: 1280px; margin: 0 auto; }
+
+/* ink bleed: tiny edge roughness on big type (filter is defined in each HTML page) */
+.ink { filter: url(#ink); }
+
+/* ---------- paper: grain, stains and darkened edges, printed over everything ---------- */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+/* fine grain */
+body::before {
+  z-index: 90;
+  opacity: .62;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .16 0 0 0 0 .12 0 0 0 0 .07 1.7 0 0 0 -.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+/* paper fibres, soft stains and a vignette */
+body::after {
+  z-index: 89;
+  opacity: .26;
+  background-image:
+    radial-gradient(ellipse at 50% 42%, transparent 48%, rgba(96, 68, 28, .34) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .035' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .30 0 0 0 0 .14 1.3 0 0 0 -.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Bauhaus thumbnails, shared by the home page and project pages ---------- */
+.pv {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 3px solid var(--ink);
+  background-color: var(--paper-lt);
+  background-repeat: no-repeat;
+  overflow: hidden;
+  max-width: 100%;
+}
+/* halftone print dots */
+.pv::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(var(--ink) 22%, transparent 24%) 0 0 / 5px 5px;
+  opacity: .1;
+}
+.pv-a {
+  background-image:
+    radial-gradient(circle at 36% 58%, var(--red) 0 25%, transparent 25.5%),
+    linear-gradient(var(--ink), var(--ink)),
+    linear-gradient(var(--blue), var(--blue)),
+    linear-gradient(var(--yellow), var(--yellow));
+  background-size: auto, 38% 6%, 26% 34%, 14% 14%;
+  background-position: 0 0, 60% 18%, 74% 78%, 12% 14%;
+}
+.pv-b {
+  background-image:
+    radial-gradient(circle at 68% 40%, transparent 0 11%, var(--ink) 11.5% 22%, transparent 22.5%),
+    linear-gradient(135deg, var(--yellow) 0 50%, transparent 50.5%),
+    linear-gradient(var(--red), var(--red)),
+    linear-gradient(var(--blue), var(--blue));
+  background-size: auto, 50% 62%, 22% 22%, 40% 5%;
+  background-position: 0 0, 0 100%, 10% 12%, 100% 92%;
+}
+.pv-c {
+  background-image:
+    linear-gradient(var(--ink), var(--ink)),
+    radial-gradient(circle at 50% 100%, var(--blue) 0 70%, transparent 70.5%),
+    radial-gradient(circle at 74% 30%, var(--yellow) 0 55%, transparent 56%),
+    linear-gradient(var(--red), var(--red));
+  background-size: 6% 100%, 46% 72%, 30% 36%, 24% 8%;
+  background-position: 30% 0, 8% 100%, 100% 8%, 100% 88%;
+}
