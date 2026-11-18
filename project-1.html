@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Tidepool</title>
+  <title>Volumetric Renderer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;800&display=swap" />
@@ -18,7 +18,7 @@
 
   <div class="sheet">
     <header class="mini">
-      <a class="mark ink" href="index.html"><span>yourname</span><small>1</small></a>
+      <a class="mark ink" href="index.html"><span>Benjamin Sung</span></a>
       <nav aria-label="Page">
         <a href="index.html#work">All work</a>
         <a href="index.html#about">About</a>
@@ -26,37 +26,29 @@
     </header>
 
     <header class="story-head">
-      <p class="kicker">no. 1 · misc. · 2026</p>
-      <h1 class="title ink">collection of shader and graphics projects</h1>
-      <p class="deck">A live tide and current dashboard for coastal kayakers.</p>
+      <p class="kicker">no. 1 · opengl · 2026</p>
+      <h1 class="title ink">Volumetric Renderer</h1>
+      <p class="deck">A team OpenGL renderer for SIGGRAPH that raymarches clouds in a fragment shader. I am building its camera.</p>
       <dl class="meta">
-        <div><dt>role</dt><dd>Design and engineering</dd></div>
-        <div><dt>year</dt><dd>2026</dd></div>
-        <div><dt>stack</dt><dd>WebGL, TypeScript, D3</dd></div>
-        <div><dt>link</dt><dd>tidepool.app</dd></div>
+        <div><dt>role</dt><dd>Camera system · team of 5</dd></div>
+        <div><dt>year</dt><dd>2026 · in progress</dd></div>
+        <div><dt>stack</dt><dd>C++, OpenGL, GLSL</dd></div>
+        <div><dt>link</dt><dd>github.com/[team-or-repo]</dd></div>
       </dl>
     </header>
 
-    <div class="figure pv pv-a"></div>
-    <p class="caption">fig. 1 — replace this block with a screenshot: &lt;img class="figure" src="..."&gt;</p>
+    <div class="figure"><img src="/images/image.png" alt="Hiking on the Isle of Skye" /></div>
 
-    <!-- Write-up: edit the headings and paragraphs. Copy an <h2> + <p> pair to add sections. -->
-    <article class="cols">
-      <h2>the problem</h2>
-      <p>Paddlers were checking three different sites to learn when a channel was safe to cross. Tidepool puts tide height, current speed and wind on one map, hour by hour.</p>
-      <p>Describe who the project was for, what was broken or missing, and what constraints you had to work within.</p>
-      <h2>what i built</h2>
-      <p>The map is drawn in WebGL so thousands of current vectors animate smoothly on a phone. Tide data is cached on the device so the app still works at the launch ramp with no signal.</p>
-      <p>Walk through the key decisions, the tools you chose, and anything you would do differently with hindsight.</p>
-      <h2>the result</h2>
-      <p>Sample text: replace with your outcome, such as users, load time, or what you learned.</p>
+     <article class="feature">
+    
+      <div class="body-cols">
+        <p>This is a volumetric renderer being developed with UIUC Siggraph. So far we have set up an OpenGL window and a fragment shader that raymarches basic clouds. We have built physically accurate skies so far as well as clouds that correctly get colored from the atmosphere. We are ultimately trying to render realistic and physically accurate clouds.</p>
+        <p>I am building it by following the camera chapter of <i>Physically Based Rendering</i> (pbrt), which is written for a CPU ray tracer, and adapting it to a fragment shader.</p>
+        <p>I am currently building the pinhole camera. Next is orbit or fly controls that update the camera-to-world matrix each frame and send it to the shader as a uniform, then depth of field.</p>
+      </div>
     </article>
 
-    <nav class="pager" aria-label="More projects">
-      <a href="project-3.html"><small>previous story</small><strong>Gridlock</strong></a>
-      <a href="project-2.html"><small>next story</small><strong>Paperwave</strong></a>
-    </nav>
-    <footer class="foot">© 2026 your name</footer>
+    
   </div>
 
   <script type="module" src="/src/project.ts"></script>

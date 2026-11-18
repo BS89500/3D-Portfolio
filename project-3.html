@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Gridlock</title>
+  <title>Vulkan Renderer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;800&display=swap" />
@@ -18,7 +18,7 @@
 
   <div class="sheet">
     <header class="mini">
-      <a class="mark ink" href="index.html"><span>yourname</span><small>1</small></a>
+      <a class="mark ink" href="index.html"><span>Benjamin Sung</span></a>
       <nav aria-label="Page">
         <a href="index.html#work">All work</a>
         <a href="index.html#about">About</a>
@@ -26,14 +26,14 @@
     </header>
 
     <header class="story-head">
-      <p class="kicker">no. 3 · wasm · 2024</p>
-      <h1 class="title ink">Gridlock</h1>
-      <p class="deck">A sliding-block puzzle game with 200 handmade levels.</p>
+      <p class="kicker">no. 3 · vulkan · 2026</p>
+      <h1 class="title ink">Vulkan Renderer</h1>
+      <p class="deck">A renderer built from scratch in C++ and Vulkan 1.4. The GPU setup and frame loop are in place, and it is working toward its first triangle.</p>
       <dl class="meta">
-        <div><dt>role</dt><dd>Game design and engineering</dd></div>
-        <div><dt>year</dt><dd>2024</dd></div>
-        <div><dt>stack</dt><dd>Rust, WASM, Canvas</dd></div>
-        <div><dt>link</dt><dd>gridlock.game</dd></div>
+        <div><dt>role</dt><dd>Solo project</dd></div>
+        <div><dt>year</dt><dd>2026 · in progress</dd></div>
+        <div><dt>stack</dt><dd>C++, Vulkan 1.4, GLFW, volk</dd></div>
+        <div><dt>link</dt><dd>github.com/your-username/your-repo</dd></div>
       </dl>
     </header>
 
@@ -42,21 +42,36 @@
 
     <!-- Write-up: edit the headings and paragraphs. Copy an <h2> + <p> pair to add sections. -->
     <article class="cols">
-      <h2>the problem</h2>
-      <p>Most sliding-block puzzles are either trivial or unfairly hard. Gridlock aims for levels that feel solvable and still make you stop and think.</p>
-      <p>Describe who the project was for, what was broken or missing, and what constraints you had to work within.</p>
-      <h2>what i built</h2>
-      <p>A solver written in Rust and compiled to WebAssembly rates every level by the length of its shortest solution, which made it possible to order the campaign by real difficulty.</p>
-      <p>Walk through the key decisions, the tools you chose, and anything you would do differently with hindsight.</p>
-      <h2>the result</h2>
-      <p>Sample text: replace with your outcome, such as downloads, reviews, or awards.</p>
+      <h2>why vulkan</h2>
+      <p>OpenGL hides most of what the GPU is really doing. The driver tracks memory, synchronisation and pipeline state for you, which is convenient and also makes it hard to see where a frame's time goes. Vulkan removes that layer. Every allocation, every barrier and every piece of state is something you write yourself.</p>
+      <p>I wanted to understand those pieces first-hand, so I am building a renderer from scratch instead of following a finished engine. The aim is a small, readable codebase that I can explain line by line.</p>
+      <h2>what works today</h2>
+      <p>The renderer brings up the whole path from a window to pixels on screen. It loads Vulkan through volk, creates a Vulkan 1.4 instance with the extensions GLFW requires, and builds a window surface. It then enumerates GPUs and prefers a discrete one, falling back to an integrated GPU or the first device available.</p>
+      <ul>
+        <li>Finds a graphics queue family, creates the logical device with the swapchain extension, and retrieves the queue.</li>
+        <li>Creates a swapchain that prefers an sRGB BGRA format, with FIFO presentation, and an image view for every swapchain image.</li>
+        <li>Allocates a command pool and command buffer, and creates two semaphores and a fence for synchronisation.</li>
+        <li>Each frame waits on the fence, acquires an image, records commands, submits them and presents.</li>
+        <li>Uses dynamic rendering instead of render passes. Image layout transitions are done by hand with pipeline barriers, from undefined to attachment-optimal for drawing, then to present-source for display.</li>
+        <li>Clears the swapchain image to a solid colour each frame. This confirms the whole path works before any geometry exists.</li>
+      </ul>
+      <p>All of it lives in one class that also tears every object down in reverse order, so resources are released cleanly.</p>
+      <h2>what is next</h2>
+      <p>I am building it in small steps, each one running and testable before the next begins:</p>
+      <ul>
+        <li>Validation layers and a debug messenger, so mistakes are reported straight away.</li>
+        <li>A graphics pipeline with GLSL shaders compiled to SPIR-V, and the first triangle.</li>
+        <li>Frames in flight, so the CPU can record the next frame while the GPU draws, and swapchain recreation on window resize.</li>
+        <li>Vertex and index buffers uploaded through a staging buffer.</li>
+        <li>Uniform buffers and descriptor sets, then a depth buffer and a rotating 3D model.</li>
+        <li>Texture loading, simple lighting, and GPU timing queries to measure each pass.</li>
+      </ul>
+      <h2>what i am learning</h2>
+      <p>My main goal is the reasoning behind the API: why the work is split into pipelines, command buffers and queues, and what the synchronisation rules protect against. Writing the layout transitions and fence handling myself showed me what a driver normally does behind OpenGL calls. I come from OpenGL and GLSL, so this is the step that makes those calls concrete.</p>
     </article>
 
-    <nav class="pager" aria-label="More projects">
-      <a href="project-2.html"><small>previous story</small><strong>Paperwave</strong></a>
-      <a href="project-1.html"><small>next story</small><strong>Tidepool</strong></a>
-    </nav>
-    <footer class="foot">© 2026 your name</footer>
+    
+   
   </div>
 
   <script type="module" src="/src/project.ts"></script>

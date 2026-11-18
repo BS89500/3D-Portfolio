@@ -70,3 +70,37 @@ dl.meta dd { margin: 0; overflow-wrap: anywhere; font-weight: 500; }
   .pager a:last-child { text-align: left; }
   .mini nav a { padding: 10px 10px 9px; letter-spacing: .1em; }
 }
+
+.feature { padding-top: 18px; border-top: 10px solid var(--ink); margin-top: clamp(40px, 7vw, 80px); }
+.feature:first-of-type { margin-top: 8px; }
+.feature .kicker { margin: 0 0 14px; }
+.feature .headline {
+  margin: 0 0 16px;
+  font: 800 clamp(2.6rem, 8.5vw, 6.6rem)/.86 var(--futura);
+  letter-spacing: -.055em;
+  text-transform: lowercase;
+  text-wrap: balance;
+}
+.feature .deck { max-width: 46ch; margin: 0 0 26px; }
+.feature .shot { margin: 0 0 26px; }
+.feature .shot .pv { aspect-ratio: 16 / 9; }
+.feature .body-cols { column-count: 3; column-gap: 2.2rem; column-rule: 3px solid var(--ink); }
+.feature .body-cols p { margin: 0 0 14px; text-align: justify; hyphens: auto; }
+.feature .body-cols p:first-child::first-letter { float: left; font: 800 4.6em/.8 var(--futura); padding: .06em .08em 0 0; color: var(--red); }
+ 
+@media (max-width: 1000px) { .feature .body-cols { column-count: 2; } }
+@media (max-width: 640px)  { .feature .body-cols { column-count: 1; } }
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills the 16:9 frame, cropping the edges if needed */
+}
+.pv img {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+}

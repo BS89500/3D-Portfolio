@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Paperwave</title>
+  <title>Other Projects</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;800&display=swap" />
@@ -18,45 +18,50 @@
 
   <div class="sheet">
     <header class="mini">
-      <a class="mark ink" href="index.html"><span>yourname</span><small>1</small></a>
+      <a class="mark ink" href="index.html"><span>Benjamin Sung</span></a>
       <nav aria-label="Page">
         <a href="index.html#work">All work</a>
         <a href="index.html#about">About</a>
       </nav>
     </header>
 
-    <header class="story-head">
-      <p class="kicker">no. 2 · web audio · 2025</p>
-      <h1 class="title ink">Paperwave</h1>
-      <p class="deck">A poster generator that turns a song into a printable layout.</p>
-      <dl class="meta">
-        <div><dt>role</dt><dd>Solo project</dd></div>
-        <div><dt>year</dt><dd>2025</dd></div>
-        <div><dt>stack</dt><dd>Web Audio, Canvas, Svelte</dd></div>
-        <div><dt>link</dt><dd>paperwave.studio</dd></div>
-      </dl>
-    </header>
-
-    <div class="figure pv pv-b"></div>
-    <p class="caption">fig. 2 — replace this block with a screenshot: &lt;img class="figure" src="..."&gt;</p>
-
+ 
     <!-- Write-up: edit the headings and paragraphs. Copy an <h2> + <p> pair to add sections. -->
-    <article class="cols">
-      <h2>the problem</h2>
-      <p>Gig posters are usually designed by hand, one at a time. Paperwave lets a band drop in a track and get dozens of print-ready layouts shaped by that track.</p>
-      <p>Describe who the project was for, what was broken or missing, and what constraints you had to work within.</p>
-      <h2>what i built</h2>
-      <p>The audio is analysed in the browser with an FFT, and the spectrum drives colour, scale and rhythm of the shapes on the page. Exports are vector files at poster size.</p>
-      <p>Walk through the key decisions, the tools you chose, and anything you would do differently with hindsight.</p>
-      <h2>the result</h2>
-      <p>Sample text: replace with your outcome, such as bands using it, prints ordered, or press.</p>
-    </article>
+        <article class="feature">
+      <p class="kicker">feature · real-time rendering</p>
+      <h2 class="headline ink">raymarched clouds with three.js</h2>
+      <p class="deck">A volumetric cloud renderer in three.js, written as a custom shader pipeline.</p>
+          <div class="figure"><img src="/images/vibeclouds.png" alt="Hiking on the Isle of Skye" /></div>
 
-    <nav class="pager" aria-label="More projects">
-      <a href="project-1.html"><small>previous story</small><strong>Tidepool</strong></a>
-      <a href="project-3.html"><small>next story</small><strong>Gridlock</strong></a>
-    </nav>
-    <footer class="foot">© 2026 your name</footer>
+      <div class="body-cols">
+        <p>My first experiment was a volumetric cloud renderer in three.js built alogngside using Gemini. The whole effect runs in a custom shader: three.js supplies an empty box and a few uniforms, and the GPU raymarches through the box for every pixel.</p>
+        <p>The JavaScript side sets up the WebGL context, the camera and the bounding-box mesh, and sends the camera position and elapsed time to the GPU every frame. The vertex shader moves the box into world space and passes the position on. The fragment shader runs per pixel, finds where the view ray crosses the box, samples noise along it, and accumulates density.</p>
+        <p>Marching rays through empty sky wastes GPU time, so I used the slab method for ray-box intersection. The box is three pairs of parallel planes. For each axis the shader computes where the ray enters and leaves, using the inverted ray direction. The latest entry is where the ray enters the box and the earliest exit is where it leaves. If the entry comes after the exit, or the exit is behind the camera, the pixel is discarded. Clamping the entry to zero lets the camera fly inside the cloud.</p>
+        <p>A sine-based hash turns 3D coordinates into pseudo-random values, and smooth Hermite interpolation between them gives continuous, rolling noise. Layering several octaves, each at double the frequency and half the amplitude (fractal Brownian motion), so that I can mimc the different densities in in clouds to try to get closer to a billowing cloud effect. It ultimately looked a little too random for me, but it looked better than a basic volumetric box.</p>
+        <p>Next comes light marching toward the sun with Beer-Lambert absorption, a Henyey-Greenstein phase function for the bright edge, blue-noise jitter to stop the banding, and lower-resolution rendering with temporal reprojection so it is cheap enough for a full scene.</p>
+      </div>
+    </article>
+ 
+    <article class="feature">
+      <p class="kicker">feature · process</p>
+      <h2 class="headline ink">building a scene from scratch</h2>
+      <p class="deck">How an environment project started, where it changed direction, and what I took from it.</p>
+      <figure class="shot">
+            <div class="figure"><img src="/images/retroisland.png" alt="Hiking on the Isle of Skye" /></div>
+
+      </figure>
+      <div class="body-cols">
+        <p>From the clouds, I wanted to learn how an environment is built from the ground up following the workflow of professional studios. I wanted real-time rendering from the start, so I studied environment breakdowns from Naughty Dog and EA, and from learning sources like CGMA and Gnomon. I have </p>
+        <p>I wanted a Pacific Northwest scene: a cloudy day, low clouds in the trees, and many fir trees. Before building anything I collected references for the light, color and vegetation. The target was the web with three.js, but I wanted the scene to look good in Blender first and then move it over, with plenty of variation in the foliage.</p>
+        <p>I started with the dirt in Substance Designer. I had tried it before and found it confusing, but having a solid grasp on not only the technical side of what makes up a PBR material, but also the artistic workflow of layering big to small shapes, really helped organize the entire project and i think the result turned out fine. A physically based material is a few maps the shader combines with light: base color with no baked lighting, roughness for how blurred reflections are, normal and height maps for fine detail without extra geometry, and ambient occlusion for darker crevices.</p>
+        <p>SpeedTree was next. It generates trees procedurally from nodes, which gave me cheap, decent-looking trees with natural variation. I used the conifer preset and spent most of my effort finding good bark and leaf textures so the trees looked full.</p>
+        <p>Building a scene from scratch from textures to modelling and composition is a daunting task. I have this weird obssession with not using any assets I haven't made. I think it has helped me learn a lot of what I need, furthering my style and voice as a technical artist. It was overwhelming in this project though. I needed more foliage, I wanted grass ran on shaders, and proper instanced scattering to make it look dense but performant. I experimented with each individually, but found it hard to put everything together in Blender. Ultimately, to try to get something, I pivoted towards a more retro looking scene that was a little liminal since that was what I thought would work best with what I had. </p>
+        <p>I then modelled and textured a small island and added a wave shader with layered noise and a fresnel effect. I then added some instanced grass over the island to add some foliage. A black gradient from the root to the tip works wonders for suggesting AO. I had set out to make a realistic, optimized scene and ended up with a simple, retro-looking one. I kept part of the work by taking the project that way, but my real interest is making real-time rendering look as real as possible. The project showed me that photorealism depends on art fundamentals as much as technical skill, and I keep practicing those.</p>
+      </div>
+    </article>
+ 
+
+    
   </div>
 
   <script type="module" src="/src/project.ts"></script>
